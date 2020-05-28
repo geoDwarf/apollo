@@ -1,4 +1,4 @@
-package com.geodwarf.apollo;
+package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,18 +17,22 @@ public class InitHealthCheck {
     //TODO Try auto wiring on constructor or setter
     @Autowired
     private RestTemplate restTemplate;
-
-    private ResponseEntity<String> responseEntity;
     @Autowired
     private URI uri;
 
-    //TODO Refactor this method
-    public  void  healthCheck() throws ResourceAccessException {
+    private ResponseEntity<String> response;
+
+    public  void  healthCheck()  {
         try{
-            responseEntity =  restTemplate.getForEntity(uri,String.class);
-            logger.info("is the backend alive calling the uri: "+responseEntity.getBody() + " http code is: " + responseEntity.getStatusCode());
+            logger.info("calling the back end at "+uri.getHost() +" " + uri.getPath());
+            response =  restTemplate.getForEntity(uri,String.class);
+            logger.info("Backend status : "+ response.getBody() + " http code is: " + response.getStatusCode());
         }catch(ResourceAccessException e){
             logger.info("Back end unavailable!!");
         }
+    }
+
+    public ResponseEntity<String> getResponse() {
+        return response;
     }
 }
