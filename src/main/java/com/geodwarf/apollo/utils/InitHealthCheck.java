@@ -19,6 +19,8 @@ public class InitHealthCheck {
     private RestTemplate restTemplate;
     @Autowired
     private URI uri;
+    @Autowired
+    private HealthCheck healthCheck;
 
     private ResponseEntity<String> response;
 
@@ -26,7 +28,6 @@ public class InitHealthCheck {
         try{
             logger.info("calling the back end at "+uri.getHost() +" " + uri.getPath());
             response =  restTemplate.getForEntity(uri,String.class);
-            logger.info("Backend status : "+ response.getBody() + " http code is: " + response.getStatusCode());
         }catch(ResourceAccessException e){
             logger.info("Back end unavailable!!");
         }
