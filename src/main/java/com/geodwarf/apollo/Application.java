@@ -1,6 +1,6 @@
 package com.geodwarf.apollo;
 
-import com.geodwarf.apollo.utils.InitHealthCheck;
+import com.geodwarf.apollo.utils.HealthCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,9 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Application  implements CommandLineRunner {
-    //TODO close feature and merge
+    //TODO write java doc
     @Autowired
-    private InitHealthCheck initHealthCheck;
+    private HealthCheck healthCheck;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -18,6 +18,6 @@ public class Application  implements CommandLineRunner {
 
     @Override
     public void run(String...args) {
-        initHealthCheck.healthCheck();
+        healthCheck.check();
     }
 }
