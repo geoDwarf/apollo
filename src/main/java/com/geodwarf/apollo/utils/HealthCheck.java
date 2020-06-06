@@ -1,7 +1,6 @@
 package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +14,21 @@ public interface HealthCheck {
      */
     void check();
 
-    //TODO think about implementation
     @Component
     class HealthCheckImpl implements HealthCheck{
 
-        private Logger logger = LoggerFactory.getLogger(HealthCheckImpl.class);
-
+        @Autowired
+        private LoggerProxy loggerProxy;
         @Autowired
         private InitHealthCheck initHealthCheck;
 
         private ResponseEntity<String> responseEntity;
 
+        private Logger logger;
+
          @Override
          public void  check(){
+             logger = loggerProxy.getLogger(HealthCheckImpl.class);
              initHealthCheck.healthCheck();
              responseEntity = initHealthCheck.getResponse();
              if (responseEntity != null){

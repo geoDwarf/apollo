@@ -1,7 +1,9 @@
 package com.geodwarf.apollo;
 
+import ch.qos.logback.classic.Logger;
 import com.geodwarf.apollo.utils.HealthCheck;
 import com.geodwarf.apollo.utils.InitHealthCheck;
+import com.geodwarf.apollo.utils.LoggerProxy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,6 +23,10 @@ public class HealthCheckTest {
     private HealthCheck.HealthCheckImpl healthCheckImpl;
 
     @Mock
+    private Logger logger;
+    @Mock
+    private LoggerProxy loggerProxy;
+    @Mock
     private InitHealthCheck initHealthCheck;
     @Mock
     private RestTemplate restTemplate;
@@ -33,13 +39,15 @@ public class HealthCheckTest {
     public void testWhenResponseIs200ApplicationKeepRunning(){
 
         //given  back end is available and it return 200
-       when(initHealthCheck.getResponse()).thenReturn(responseEntity);
-       when(responseEntity.getStatusCode()).thenReturn(responseCode.OK);
+        when(initHealthCheck.getResponse()).thenReturn(responseEntity);
+        when(responseEntity.getStatusCode()).thenReturn(responseCode.OK);
+        when(loggerProxy.getLogger(HealthCheck.HealthCheckImpl.class)).thenReturn(logger);
 
        //when we call the method to check
         healthCheckImpl.check();
 
         //it log the result and carries on
+        verify(logger,times(1)).info(anyString());
         verify(responseEntity,times(1)).getBody();
         verify(responseEntity,times(2)).getStatusCode();
 
@@ -51,11 +59,13 @@ public class HealthCheckTest {
         //given  back end is available but  it does not return 200
         when(initHealthCheck.getResponse()).thenReturn(responseEntity);
         when(responseEntity.getStatusCode()).thenReturn(responseCode.INTERNAL_SERVER_ERROR);
+        when(loggerProxy.getLogger(HealthCheck.HealthCheckImpl.class)).thenReturn(logger);
 
         //when we call the method to check
         healthCheckImpl.check();
 
-        //it log the result and carries on
+        //it log the error and carries on
+        verify(logger,times(1)).error(anyString());
         verify(responseEntity,times(1)).getBody();
         verify(responseEntity,times(2)).getStatusCode();
     }

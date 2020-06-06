@@ -1,7 +1,6 @@
 package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,9 @@ import java.net.URI;
 @Component
 public class InitHealthCheck {
     //TODO check if it can be injected or used in a different way
-    Logger logger = LoggerFactory.getLogger(InitHealthCheck.class);
+    private Logger logger;
+    @Autowired
+    LoggerProxy loggerProxy;
     //TODO Try auto wiring on constructor or setter
     @Autowired
     private RestTemplate restTemplate;
@@ -25,11 +26,12 @@ public class InitHealthCheck {
     private ResponseEntity<String> response;
 
     public  void  healthCheck()  {
+        logger  = loggerProxy.getLogger(InitHealthCheck.class);
         try{
             logger.info("calling the back end at "+uri.getHost() +" " + uri.getPath());
             response =  restTemplate.getForEntity(uri,String.class);
         }catch(ResourceAccessException e){
-            logger.info("Back end unavailable!!");
+            logger.error("Back end unavailable!!");
         }
     }
 
