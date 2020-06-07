@@ -65,7 +65,7 @@ public class HealthCheckTest {
         healthCheckImpl.check();
 
         //it log the error and carries on
-        verify(logger,times(1)).error(anyString());
+        verify(logger,times(2)).error(anyString());
         verify(responseEntity,times(1)).getBody();
         verify(responseEntity,times(2)).getStatusCode();
     }
