@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application  implements CommandLineRunner {
     //TODO write java doc
-    //This is just to test jenkins triggers,it need to be removed once we know jenkins trigger is working
     @Autowired
     private HealthCheck healthCheck;
 
