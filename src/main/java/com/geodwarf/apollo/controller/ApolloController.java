@@ -10,4 +10,9 @@ public class ApolloController {
     public String greeting(){
         return  "greeting from here";
     }
+
+    @GetMapping("/")
+    public String noPathEntry(){
+        return  "home";
+    }
 }
