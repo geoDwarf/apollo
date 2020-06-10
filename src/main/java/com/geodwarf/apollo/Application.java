@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application  implements CommandLineRunner {
     //TODO download open layers
     //TODO write java doc
+    //TODO isolate js in its own file
+    //TODO import leaflet library
+
     @Autowired
     private HealthCheck healthCheck;
 
