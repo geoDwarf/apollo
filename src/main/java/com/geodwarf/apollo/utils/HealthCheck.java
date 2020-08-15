@@ -5,12 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
 
 @Component
 public interface HealthCheck {
 
     /**
-     * This is is a one time health check
+     * This check the healthy of a service we it depends on
      */
     void check();
 
@@ -19,8 +23,12 @@ public interface HealthCheck {
 
         @Autowired
         private LoggerProxy loggerProxy;
+        //TODO Try auto wiring on constructor or setter+
+        // TODO check if it can be injected or used in a different way
         @Autowired
-        private InitHealthCheck initHealthCheck;
+        private RestTemplate restTemplate;
+        @Autowired
+        private URI uri;
 
         private ResponseEntity<String> responseEntity;
 
@@ -29,11 +37,18 @@ public interface HealthCheck {
          @Override
          public void  check(){
              logger = loggerProxy.getLogger(HealthCheckImpl.class);
-             initHealthCheck.healthCheck();
-             responseEntity = initHealthCheck.getResponse();
+             try{
+                 logger.info("calling the back end at "+uri.getHost() +" " + uri.getPath());
+                 responseEntity =  restTemplate.getForEntity(uri,String.class);
              if (responseEntity != null){
                 logResponseDetails();
              }
+             }catch(ResourceAccessException e){
+                 logger.error("Back end unavailable!!");
+             }
+             ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck();
+             Thread th = new Thread(continuousHealthCheck);
+             th.start();
          }
 
          private void logResponseDetails(){
