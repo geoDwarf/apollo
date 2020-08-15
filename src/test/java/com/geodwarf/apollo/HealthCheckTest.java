@@ -2,7 +2,6 @@ package com.geodwarf.apollo;
 
 import ch.qos.logback.classic.Logger;
 import com.geodwarf.apollo.utils.HealthCheck;
-import com.geodwarf.apollo.utils.InitHealthCheck;
 import com.geodwarf.apollo.utils.LoggerProxy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import static org.mockito.Mockito.*;
+import java.net.URI;
 
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HealthCheckTest {
@@ -27,19 +27,20 @@ public class HealthCheckTest {
     @Mock
     private LoggerProxy loggerProxy;
     @Mock
-    private InitHealthCheck initHealthCheck;
-    @Mock
     private RestTemplate restTemplate;
     @Mock
     private ResponseEntity<String> responseEntity;
     @Mock
     private HttpStatus responseCode;
+    @Mock
+    private URI uri;
 
     @Test
     public void testWhenResponseIs200ApplicationKeepRunning(){
 
         //given  back end is available and it return 200
-        when(initHealthCheck.getResponse()).thenReturn(responseEntity);
+        givenUrlSetUp();
+        when(restTemplate.getForEntity(uri,String.class)).thenReturn(responseEntity);
         when(responseEntity.getStatusCode()).thenReturn(responseCode.OK);
         when(loggerProxy.getLogger(HealthCheck.HealthCheckImpl.class)).thenReturn(logger);
 
@@ -47,7 +48,8 @@ public class HealthCheckTest {
         healthCheckImpl.check();
 
         //it log the result and carries on
-        verify(logger,times(1)).info(anyString());
+        verify(logger,times(2)).info(anyString());
+        verify(restTemplate,times(1)).getForEntity(uri,String.class);
         verify(responseEntity,times(1)).getBody();
         verify(responseEntity,times(2)).getStatusCode();
 
@@ -57,7 +59,8 @@ public class HealthCheckTest {
     public void testWhenResponseIsNot200ApplicationLogsAnError(){
 
         //given  back end is available but  it does not return 200
-        when(initHealthCheck.getResponse()).thenReturn(responseEntity);
+        givenUrlSetUp();
+        when(restTemplate.getForEntity(uri,String.class)).thenReturn(responseEntity);
         when(responseEntity.getStatusCode()).thenReturn(responseCode.INTERNAL_SERVER_ERROR);
         when(loggerProxy.getLogger(HealthCheck.HealthCheckImpl.class)).thenReturn(logger);
 
@@ -66,7 +69,13 @@ public class HealthCheckTest {
 
         //it log the error and carries on
         verify(logger,times(1)).error(anyString());
+        verify(restTemplate,times(1)).getForEntity(uri,String.class);
         verify(responseEntity,times(1)).getBody();
         verify(responseEntity,times(2)).getStatusCode();
+    }
+
+    private void givenUrlSetUp(){
+        when(uri.getHost()).thenReturn("localhost");
+        when(uri.getPath()).thenReturn("actuator/health");
     }
 }
