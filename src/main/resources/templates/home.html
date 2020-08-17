@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/leaflet.js}"></script>
-
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/leaflet.css}"/>
+    <script type="text/javascript" th:src="@{/js/leaflet.js}"></script>
 
     <style>
     #mapid { height: 500px; }
@@ -20,14 +19,14 @@
 
 <div class="container-fluid">
     <div class="row content">
-        <div class="col-sm-3 sidenav">
-            <h4>John's Blog</h4>
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#section1">Home</a></li>
-                <li><a href="#section2">Friends</a></li>
-                <li><a href="#section3">Family</a></li>
-                <li><a href="#section3">Photos</a></li>
-            </ul><br>
+        <div class="col-sm-3">
+            <h4>Apollo</h4>
+            <div class="list-group">
+                <a href="#section1" class="list-group-item list-group-item-action active" >Home</a>
+                <a href="#section2" class="list-group-item list-group-item-action" >Friends</a>
+                <a href="#section3" class="list-group-item list-group-item-action" >Boasia</a>
+                <a href="#section4" class="list-group-item list-group-item-action" >Chronicles</a>
+            </div>
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search Blog..">
                 <span class="input-group-btn">
