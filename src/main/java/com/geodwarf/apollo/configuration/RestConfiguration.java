@@ -16,8 +16,13 @@ public class RestConfiguration {
         return new RestTemplate();
     }
 
-    @Bean
-    public URI uri(@Value("${url.basic}")String basicUrl, @Value("${url.health.actuator}") String actuatorUrl )throws URISyntaxException {
+    @Bean(name = "actuator-url")
+    public URI actuatorUri(@Value("${url.basic}")String basicUrl, @Value("${url.health.actuator}") String actuatorUrl )throws URISyntaxException {
+        return new URI(basicUrl+actuatorUrl);
+    }
+
+    @Bean(name = "get-points-url")
+    public URI getPointsUri(@Value("${url.basic}")String basicUrl, @Value("${url.features.points}") String actuatorUrl )throws URISyntaxException {
         return new URI(basicUrl+actuatorUrl);
     }
 }

@@ -2,6 +2,7 @@ package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ public interface HealthCheck {
         @Autowired
         private RestTemplate restTemplate;
         @Autowired
+        @Qualifier("actuator-url")
         private URI uri;
 
         private ResponseEntity<String> responseEntity;
@@ -46,7 +48,7 @@ public interface HealthCheck {
              }catch(ResourceAccessException e){
                  logger.error("Back end unavailable!!");
              }
-             ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck();
+             ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck(uri,restTemplate);
              Thread th = new Thread(continuousHealthCheck);
              th.start();
          }

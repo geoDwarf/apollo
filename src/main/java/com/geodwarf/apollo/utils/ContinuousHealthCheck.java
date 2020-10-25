@@ -2,12 +2,14 @@ package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 import java.net.URI;
-import java.net.URISyntaxException;
+
 
 public class ContinuousHealthCheck implements   Runnable   {
 
@@ -15,15 +17,13 @@ public class ContinuousHealthCheck implements   Runnable   {
     private URI uri;
     private ResponseEntity<String> responseEntity;
     private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);;
-    private RestTemplate restTemplate =  new RestTemplate();
+    private RestTemplate restTemplate ;
     private String URI_PATH = "http://localhost:8081/actuator/health";
 
-    public ContinuousHealthCheck()   {
-        try{
-            uri = new URI(URI_PATH); }
-        catch(URISyntaxException e){
-            logger.info("Unknown  URL or URL malformed");
-        }
+
+    public ContinuousHealthCheck(@Autowired @Qualifier("actuator-url")URI uri, RestTemplate restTemplate)   {
+        this.uri = uri;
+        this.restTemplate = restTemplate;
     }
 
     @Override
