@@ -1,18 +1,21 @@
 
-
 var mymap = L.map('mapid').setView([42.0505, 12.09], 10);
-var geojsonFeature = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [12.09, 42.0505]
-    }
-};
+function getDefaultFeatures(){
+ $.ajax({
+         'url' : 'http://localhost:8080/getpoints',
+        'type' : 'GET',
+        'success' : function(data) {
+            L.geoJSON(loadPoints(data), {
+                                              style: myStyle
+                                          }).addTo(mymap);
+        },
+        'error' : function(request,error)
+        {
+            alert("Request: "+JSON.stringify(request));
+        }
+    });
+}
+
 
 var myStyle = {
     "color": "#ff7800",
@@ -29,6 +32,3 @@ var myStyle = {
 		zoomOffset: -1
 	}).addTo(mymap);
 
-	L.geoJSON(geojsonFeature, {
-                                  style: myStyle
-                              }).addTo(mymap);
