@@ -1,6 +1,7 @@
 package com.geodwarf.apollo;
 
 import ch.qos.logback.classic.Logger;
+import com.geodwarf.apollo.utils.ContinuousHealthCheck;
 import com.geodwarf.apollo.utils.HealthCheck;
 import com.geodwarf.apollo.utils.LoggerProxy;
 import org.junit.Test;
@@ -34,6 +35,8 @@ public class HealthCheckTest {
     private HttpStatus responseCode;
     @Mock
     private URI uri;
+    @Mock
+    ContinuousHealthCheck continuousHealthCheck;
 
     @Test
     public void testWhenResponseIs200ApplicationKeepRunning(){

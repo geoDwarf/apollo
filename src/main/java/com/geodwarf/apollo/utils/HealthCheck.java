@@ -14,7 +14,7 @@ import java.net.URI;
 public interface HealthCheck {
 
     /**
-     * This check the healthy of a service we it depends on
+     * This check the healthy of a service we  depends on
      */
     void check();
 
@@ -29,6 +29,8 @@ public interface HealthCheck {
         private RestTemplate restTemplate;
         @Autowired
         private URI uri;
+        @Autowired
+        private ContinuousHealthCheck continuousHealthCheck;
 
         private ResponseEntity<String> responseEntity;
 
@@ -46,7 +48,7 @@ public interface HealthCheck {
              }catch(ResourceAccessException e){
                  logger.error("Back end unavailable!!");
              }
-             ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck();
+             //ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck();
              Thread th = new Thread(continuousHealthCheck);
              th.start();
          }
