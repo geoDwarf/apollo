@@ -20,4 +20,9 @@ public class RestConfiguration {
     public URI uri(@Value("${url.basic}")String basicUrl, @Value("${url.health.actuator}") String actuatorUrl )throws URISyntaxException {
         return new URI(basicUrl+actuatorUrl);
     }
+
+    @Bean
+    public URI getPointsUri(@Value("${url.basic}")String basicUrl ,@Value("${url.get.points}") String getPoints)throws URISyntaxException {
+        return new URI(basicUrl+getPoints);
+    }
 }
