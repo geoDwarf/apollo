@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 @Configuration
 public class RestConfiguration {
 
+    private String URI_PATH = System.getenv("BACKEND_URL");
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
@@ -22,7 +24,7 @@ public class RestConfiguration {
     }
 
     @Bean
-    public URI getPointsUri(@Value("${url.basic}")String basicUrl ,@Value("${url.get.points}") String getPoints)throws URISyntaxException {
-        return new URI(basicUrl+getPoints);
+    public URI getPointsUri(@Value("${url.get.points}") String getPoints)throws URISyntaxException {
+        return new URI(URI_PATH+getPoints);
     }
 }

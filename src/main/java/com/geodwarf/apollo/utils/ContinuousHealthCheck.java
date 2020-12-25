@@ -19,7 +19,6 @@ public class ContinuousHealthCheck implements   Runnable   {
     private ResponseEntity<String> responseEntity;
     private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);
     private RestTemplate restTemplate =  new RestTemplate();
-    //private String URI_PATH = "http://localhost:8081/actuator/health";
     private String URI_PATH = System.getenv("BACKEND_URL") + "/actuator/health";
 
     public ContinuousHealthCheck()   {
