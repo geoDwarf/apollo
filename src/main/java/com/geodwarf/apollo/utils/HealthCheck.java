@@ -48,7 +48,6 @@ public interface HealthCheck {
              }catch(ResourceAccessException e){
                  logger.error("Back end unavailable!!");
              }
-             //ContinuousHealthCheck continuousHealthCheck = new ContinuousHealthCheck();
              Thread th = new Thread(continuousHealthCheck);
              th.start();
          }

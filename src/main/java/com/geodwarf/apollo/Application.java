@@ -11,7 +11,6 @@ public class Application  implements CommandLineRunner {
     //TODO write java doc
     //TODO isolate js in its own file
     //TODO import leaflet library
-    //TODO import the correct js and css (e.g merge playground into master)
 
     @Autowired
     private HealthCheck healthCheck;

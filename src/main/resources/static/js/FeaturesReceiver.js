@@ -2,20 +2,35 @@ var FeaturesReceiver = function () {};
 
 FeaturesReceiver.prototype = function (){
 
+    var geojsonMarkerOptions = {
+        radius: 6,
+        fillColor: "#ff7800",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
+    };
 
     var backEndCallToGetPoints = function (){
-        console.log('document ready');
+
+
         $.ajax({
             type: 'GET',
             url: '/getpoints',
             dataType: 'json',
             success: function (data) {
-                var receivedCoordinates = [[data[0].x, data[0].y ],[data[1].x, data[1].y]];
+                var receivedCoordinates = [];
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    receivedCoordinates.push([data[i].x, data[i].y ]);
+                }
                 multiPointGeometry.coordinates = receivedCoordinates;
                 defaultPointFeature.geometry = multiPointGeometry;
 
                 L.geoJSON(defaultPointFeature, {
-                    style: myStyle
+                        pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, geojsonMarkerOptions);
+                    }
                 }).addTo(mymap);
 
             }
