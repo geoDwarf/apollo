@@ -13,7 +13,7 @@ import java.net.URI;
 
 public class ContinuousHealthCheck implements   Runnable   {
 
-    //TODO put the URI in a configuration file and see if it is possible to inject Object in multithreading, also check how it can be testes
+    //TODO put the URI in a configuration file and see if it is possible to inject Object in multithreading, also check how it can be tested
     private URI uri;
     private ResponseEntity<String> responseEntity;
     private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);;

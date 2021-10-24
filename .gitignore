@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream
 /.idea/
 /apollo.iml
 /target/
 .env
+=======
+/.idea/
+/apollo.iml
+/target/
+>>>>>>> Stashed changes
