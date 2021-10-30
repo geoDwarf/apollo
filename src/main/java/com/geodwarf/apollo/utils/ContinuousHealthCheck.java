@@ -17,9 +17,10 @@ public class ContinuousHealthCheck implements   Runnable   {
     //TODO put the URI in a configuration file and see if it is possible to inject Object in multithreading, also check how it can be testes
     private URI uri;
     private ResponseEntity<String> responseEntity;
-    private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);
+    private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);;
     private RestTemplate restTemplate =  new RestTemplate();
-    private String URI_PATH = System.getenv("BACKEND_URL") + "/actuator/health";
+    //private String URI_PATH = "http://localhost:8081/actuator/health";
+    private String URI_PATH = System.getenv("BACKEND_URL");
 
     public ContinuousHealthCheck()   {
         try{
@@ -34,7 +35,7 @@ public class ContinuousHealthCheck implements   Runnable   {
         while(true)
             try
             {
-                Thread.sleep(200000);
+                Thread.sleep(80000);
                 try{
                     logger.info("calling the back end at: "+  URI_PATH);
                     responseEntity =  restTemplate.getForEntity(uri,String.class);
@@ -60,3 +61,4 @@ public class ContinuousHealthCheck implements   Runnable   {
     }
 
 }
+
