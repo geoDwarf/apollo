@@ -2,6 +2,7 @@ package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ public interface HealthCheck {
         @Autowired
         private RestTemplate restTemplate;
         @Autowired
+        @Qualifier("healthcheckUri")
         private URI uri;
         @Autowired
         private ContinuousHealthCheck continuousHealthCheck;

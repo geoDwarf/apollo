@@ -2,6 +2,8 @@ package com.geodwarf.apollo.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,14 +22,16 @@ public class ContinuousHealthCheck implements   Runnable   {
     private Logger logger  = LoggerFactory.getLogger(ContinuousHealthCheck.class);;
     private RestTemplate restTemplate =  new RestTemplate();
     //private String URI_PATH = "http://localhost:8081/actuator/health";
-    private String URI_PATH = System.getenv("BACKEND_URL");
+    //private String URI_PATH = System.getenv("BACKEND_URL");
 
-    public ContinuousHealthCheck()   {
-        try{
-            uri = new URI(URI_PATH + "/actuator/health"); }
-        catch(URISyntaxException e){
-            logger.info("Unknown  URL or URL malformed");
-        }
+    public ContinuousHealthCheck(@Autowired @Qualifier("healthcheckUri")URI uri)  {
+        System.out.println(uri);
+        this.uri = uri;
+//        try{
+//            uri = new URI(uri + "/actuator/health"); }
+//        catch(URISyntaxException e){
+//            logger.info("Unknown  URL or URL malformed");
+//        }
     }
 
     @Override
@@ -37,7 +41,7 @@ public class ContinuousHealthCheck implements   Runnable   {
             {
                 Thread.sleep(80000);
                 try{
-                    logger.info("calling the back end at: "+  URI_PATH);
+                    logger.info("calling the back end at: "+  uri);
                     responseEntity =  restTemplate.getForEntity(uri,String.class);
                     if (responseEntity != null){
                         logResponseDetails();
