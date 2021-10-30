@@ -24,7 +24,7 @@ public class ContinuousHealthCheck implements   Runnable   {
 
     public ContinuousHealthCheck()   {
         try{
-            uri = new URI(URI_PATH); }
+            uri = new URI(URI_PATH + "/actuator/health"); }
         catch(URISyntaxException e){
             logger.info("Unknown  URL or URL malformed");
         }
