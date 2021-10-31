@@ -6,7 +6,6 @@ $(document).ready(function () {
 
 var mymap = L.map('mapid').setView([42.01756995, 12.45080344], 12);
 
-//42.01756995, 12.45080344
 var myStyle = {
     "color": "#ff7800",
     "weight": 5,
