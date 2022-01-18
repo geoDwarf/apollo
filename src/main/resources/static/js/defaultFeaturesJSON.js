@@ -3,7 +3,7 @@ defaultPointFeature = {
     "properties": {
         "name": "default",
         "amenity": "default",
-        "popupContent": "This is a default pop up contenr!"
+        "popupContent": "This is a default pop up !"
     },
     "geometry": {
         "type": "Point",

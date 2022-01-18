@@ -15,4 +15,9 @@ public class ApolloController {
     public String noPathEntry(){
         return  "home";
     }
+
+    @GetMapping("/login")
+    public String login(){
+        return  "logged-in";
+    }
 }
