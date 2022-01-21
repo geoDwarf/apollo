@@ -16,8 +16,18 @@ public class ApolloController {
         return  "home";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return  "logged-in";
+    @GetMapping("restr/regional-maps")
+    public String getRegionalMaps(){
+        return  "regional-maps";
+    }
+
+    @GetMapping("restr/dungeon-maps")
+    public String getDungeonMaps(){
+        return  "dungeon-maps";
+    }
+
+    @GetMapping("restr/city-maps")
+    public String getCityMaps(){
+        return  "city-maps";
     }
 }
